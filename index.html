@@ -60,25 +60,30 @@
             <p><strong>Total Harga:</strong> <span id="total-price">Rp. -</span></p>
         </div>
 
-        <button onclick="closeTab()">Tutup</button>
+        <button id="confirm-payment">Konfirmasi</button>
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             function getQueryParam(param) {
                 const urlParams = new URLSearchParams(window.location.search);
-                return urlParams.get(param) || "-"; // Default ke "-" jika tidak ada data
+                return urlParams.get(param) || "-"; // Default ke "-"
             }
 
+            // Set data dari URL ke elemen HTML
             document.getElementById("user-id").textContent = getQueryParam("user");
             document.getElementById("zone-id").textContent = getQueryParam("zone");
             document.getElementById("package").textContent = getQueryParam("uc");
             document.getElementById("total-price").textContent = "Rp. " + getQueryParam("price");
         });
 
-        function closeTab() {
-            window.close();
-        }
+        document.getElementById("confirm-payment").addEventListener("click", () => {
+            // Kirim pesan ke halaman utama (checkout)
+            if (window.opener) {
+                window.opener.postMessage("close-popup", "*");
+            }
+            window.close(); // Tutup tab konfirmasi
+        });
     </script>
 </body>
 </html>
